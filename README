@@ -1,0 +1,4 @@
+Python code to connect to Adafruit USB Serial Backpack
+https://www.adafruit.com/products/782
+
+using the pyserial library: https://pythonhosted.org/pyserial/shortintro.html

@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+
+# put arguments on to the lcd
+
+import serial
+import sys
+
+PORT = '/dev/ttyACM0'
+
+
+args = ' '.join(sys.argv[1:])
+
+with serial.Serial(PORT, 9600, timeout=1) as ser:
+    ser.write(args)
