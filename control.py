@@ -42,3 +42,12 @@ CUSTOM_CHARACTER_LOAD = '\xc0'   # Load specified bank of custom characters
 
 GPO_OFF = '\x56'
 GPO_ON  = '\x56'
+
+
+# compound commands
+clear = COMMAND + CLEAR_SCREEN + COMMAND + CURSOR_HOME
+
+red = COMMAND + BACKLIGHT_COLOR + b'\xff\x00\x00'
+green = COMMAND + BACKLIGHT_COLOR + b'\x00\xff\x00'
+blue = COMMAND + BACKLIGHT_COLOR + b'\x00\x00\xff'
+white = COMMAND + BACKLIGHT_COLOR + b'\xff\xff\xff'

@@ -5,8 +5,21 @@
 import serial
 import sys
 
+import control
+
+
 PORT = '/dev/ttyACM0'
 
+if sys.argv[1] == 'clear':
+    sys.argv[1] = control.clear
+elif sys.argv[1] == 'red':
+    sys.argv[1] = control.red
+elif sys.argv[1] == 'green':
+    sys.argv[1] = control.green
+elif sys.argv[1] == 'blue':
+    sys.argv[1] = control.blue
+elif sys.argv[1] == 'white':
+    sys.argv[1] = control.white
 
 args = ' '.join(sys.argv[1:])
 
