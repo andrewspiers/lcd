@@ -1,0 +1,48 @@
+source: https://learn.adafruit.com/usb-plus-serial-backpack/command-reference
+
+
+Command Reference Author Gravatar Image TYLER COOPER
+The command set is based on the Matrix Orbital specification. We added a few commands to support the RGB backlight and to adjust the size of the display (so one firmware can support 16x2 or 20x4) If you're using software that support Matrix Orbital displays, this backpack should work identically (if not, please let us know!)
+All commands start with the special character 0xFE (in hex) which tells the backpack to watch for a special command next.
+
+Basic commands:
+---------------
+Display On - 0xFE 0x42 - This command turns the display backlight on . The argument is how many minutes to stay on, the command is supported but we don't handle the timeout so that number is ignored
+Display On - 0xFE 0x46 - turn the display backlight off
+Set Brightness - 0xFE 0x99 - set the overall brightness of the backlight (the color component is set separately - brightness setting takes effect after the color is set). Setting is saved to EEPROM
+Set & Save Brightness - 0xFE 0x98 - same as above
+Set Contrast - 0xFE 0x50 - set the display contrast. In general, around 180-220 value is what works well. Setting is saved to EEPROM
+Set & Save Contrast - 0xFE 0x91 - same as above
+Autoscroll on - 0xFE 0x51 - this will make it so when text is received and there's no more space on the display, the text will automatically 'scroll' so the second line becomes the first line, etc. and new text is always at the bottom of the display
+Autoscroll off - 0xFE 0x52 - this will make it so when text is received and there's no more space on the display, the text will wrap around to start at the top of the display.
+Clear screen - 0xFE 0x58 - this will clear the screen of any text
+Change startup splash screen - 0xFE 0x40 - after sending this command, write up to 32 characters (for 16x2) or up to 80 characters (for 20x4) that will appear as the splash screen during startup. If you don't want a splash screen, write a bunch of spaces
+
+Moving and changing the cursor:
+-------------------------------
+Set cursor position - 0xFE 0x47 - set the position of text entry cursor. Column and row numbering starts with 1 so the first position in the very top left is (1, 1)
+Go home - 0xFE 0x48 - place the cursor at location (1, 1)
+Cursor back - 0xFE 0x4C - move cursor back one space, if at location (1,1) it will 'wrap' to the last position.
+Cursor forward - 0xFE 0x4D - move cursor back one space, if at the last location location it will 'wrap' to the (1,1) position.
+Underline cursor on - 0xFE 0x4A - turn on the underline cursor
+Underline cursor off - 0xFE 0x4B - turn off the underline cursor
+Block cursor on - 0xFE 0x53 - turn on the blinking block cursor
+Block cursor off - 0xFE 0x54 - turn off the blinking block cursor
+
+RGB Backlight and LCD size
+--------------------------
+
+Set RGB Backlight Color - 0xFE 0xD0 - Sets the backlight to the red, green and blue component colors. The values of can range from 0 to 255 (one byte). This is saved to EEPROM. Each color R, G, and B is represented by a byte following the command. Color values range from 0 to 255. To set the backlight to Red, the command is 0xFE 0xD0 0x255 0x0 0x0. Blue is 0xFE 0xD0 0x0 0x0 0x255. White is 0xFE 0xD0 0x255 0x255 0x255.
+Set LCD size - 0xFE 0xD1 - You can configure the backpack to what size display is attached. This is saved to EEPROM so you only have to do it once.Custom Characters
+Create custom character - 0xFE 0x4E - this will create a custom character in spot . can be between 0 and 7 (8 spots). 8 bytes are sent which indicate how the character should appear
+Save custom character to EEPROM bank - 0xFE 0xC1 - this will save the custom character to EEPROM bank for later use. There are 4 banks and 8 locations per bank.
+Load custom characters from EEPROM bank - 0xFE 0xC0 - this will load all 8 characters saved to an EEPROM bank into the LCD's memory
+
+General Purpose Output
+----------------------
+The general purpose outputs are 4 pins that are not used by the backpack, you can set these pins high or low.GPO1 is labeled PB0, GPO2 is labeled PC2, GPO3 is labeled PC4 and GPO4 is PC7
+GPO Off - 0xFE 0x56 - set the general purpose pin to LOW (0V)
+GPO On - 0xFE 0x57 - set the general purpose pin to HIGH (5V)
+GPO Start State - 0xFE 0xC3 - sets the 'initial' stae of the GPO pin Not handled!
+Set auto-line-wrap on - 0xFE 0x43- and Set auto-line-wrap off - 0xFE 0x44- are not supported. We found that having auto-line wrap off was just not very useful so its automatically on all the time.
+Initialize/Place Medium & Large Numbers, Horizontal bar and vertical bar -this is not supported
