@@ -63,3 +63,23 @@ cmd['blue'] = ''.join(
     (cmd['COMMAND'], cmd['BACKLIGHT_COLOR'], b'\x00\x00\xff'))
 cmd['white'] = ''.join(
     (cmd['COMMAND'], cmd['BACKLIGHT_COLOR'], b'\xff\xff\xff'))
+
+cmd['rowone'] = ''.join((cmd['COMMAND'], cmd['CURSOR_POSITION'], b'\x01\x01'))
+cmd['rowtwo'] = ''.join((cmd['COMMAND'], cmd['CURSOR_POSITION'], b'\x01\x02'))
+
+
+def twoline(one,two):
+    """given two strings, clear the screen, then output the first string
+    at the first column of the top row, then the second at the first column of
+    the bottom row."""
+    o = str()
+    o += cmd['clear']
+    o += one
+
+    o += cmd['rowtwo']
+    #o += cmd['COMMAND']
+    #o += cmd['CURSOR_POSITION']
+    #o += b'\x01'  # column 1
+    #o += b'\x02'  # row 2
+    o += two
+    return o
