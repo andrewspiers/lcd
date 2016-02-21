@@ -5,8 +5,12 @@
 import serial
 import sys
 
+from control import cmd
+
 PORT = '/dev/ttyACM0'
 
+if sys.argv[1] in cmd:
+    sys.argv[1] = cmd[sys.argv[1]]
 
 try:
     args = ' '.join(sys.argv[1:])
