@@ -11,7 +11,7 @@ PORT = '/dev/ttyACM0'
 try:
     args = ' '.join(sys.argv[1:])
 except IndexError:
-    args = 'X'
+    args = ''
 
 for line in sys.stdin:
     with serial.Serial(PORT, 9600, timeout=1) as ser:
